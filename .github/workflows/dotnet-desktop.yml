@@ -113,3 +113,10 @@ jobs:
       with:
         name: MSIX Package
         path: ${{ env.Wap_Project_Directory }}\AppPackages
+
+    - name: NUnit Tests
+      working-directory: ICT3101_Calculator.UnitTests/
+      run: dotnet test --no-build --verbosity normal
+    - name: SpecFLow Tests
+      working-directory: SpecFlowCalculatorTests/
+      run: dotnet test --no-build --verbosity normal
