@@ -29,7 +29,7 @@ namespace ICT3101_Calculator.UnitTests
 
             // Assert
             Assert.That(result, Is.EqualTo(7.0)); // 3.5 * 2
-        }
+        }   
 
         [Test]
         public void GenMagicNum_WhenIndex1Negative_ReturnsPositiveDouble()

@@ -175,17 +175,6 @@ namespace ICT3101_Calculator
             if (prevSsi < 0 || newSsi < 0) throw new ArgumentException("SSI values cannot be negative");
             return prevSsi + newSsi;
         }
-        public class FileReader : IFileReader
-        {
-            public string[] Read(string path)
-            {
-                return File.ReadAllLines(path);
-            }
-        }
-        public interface IFileReader
-        {
-            string[] Read(string path);
-        }
         public double GenMagicNum(double input, IFileReader fileReader)
         {
             double result = 0;
