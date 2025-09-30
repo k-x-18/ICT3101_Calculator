@@ -1,3 +1,5 @@
+using static ICT3101_Calculator.Calculator;
+
 namespace ICT3101_Calculator.UnitTests
 {
     public class CalculatorTests
@@ -166,6 +168,68 @@ namespace ICT3101_Calculator.UnitTests
             // Act
             // Assert
             Assert.That(() => _calculator.UnknownFunctionB(4, 5), Throws.ArgumentException);
+        }
+        public class FakeFileReader : IFileReader
+        {
+            private readonly string[] _data;
+
+            public FakeFileReader(string[] data)
+            {
+                _data = data;
+            }
+
+            public string[] Read(string path)
+            {
+                return _data;
+            }
+        }
+        [Test]
+        public void GenMagicNum_WhenIndex1Negative_ReturnsPositiveDouble()
+        {
+            // Arrange
+            var fakeReader = new FakeFileReader(new[] { "3.5", "-4.0", "0", "10" });
+
+            // Act
+            double result = _calculator.GenMagicNum(1, fakeReader);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(8.0)); // -4 * -2
+        }
+
+        [Test]
+        public void GenMagicNum_WhenIndexOutOfRange_ReturnsZero()
+        {
+            // Arrange
+            var fakeReader = new FakeFileReader(new[] { "3.5", "-4.0" });
+
+            // Act
+            double result = _calculator.GenMagicNum(10, fakeReader);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GenMagicNum_WhenFileHasInvalidNumber_ThrowsFormatException()
+        {
+            // Arrange
+            var fakeReader = new FakeFileReader(new[] { "NotANumber" });
+
+            // Act + Assert
+            Assert.That(() => _calculator.GenMagicNum(0, fakeReader), Throws.TypeOf<FormatException>());
+        }
+
+        [Test]
+        public void GenMagicNum_WhenInputIsNegativeIndex_ReturnsZero()
+        {
+            // Arrange
+            var fakeReader = new FakeFileReader(new[] { "3.5", "-4.0" });
+
+            // Act
+            double result = _calculator.GenMagicNum(-1, fakeReader);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(0));
         }
     }
 }
